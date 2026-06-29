@@ -3,54 +3,54 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>인스타 자료 갤러리 — 계정별 원본 프레임</title>
+<title>인스타 자료 갤러리 — 계정별·종류별</title>
 <style>
   :root{
     --bg:#0b0b12; --panel:#14141f; --ink:#eef0f6; --mut:#9aa0b4; --line:#262636;
-    --pink:#f472b6; --pinkbg:rgba(244,114,182,.14);
-    --blue:#60a5fa; --bluebg:rgba(96,165,250,.14);
-    --green:#34d399; --greenbg:rgba(52,211,153,.14);
+    --pink:#f472b6; --blue:#60a5fa; --green:#34d399; --amber:#fbbf24; --purple:#a78bfa;
   }
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--ink);
     font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard",sans-serif;
     -webkit-font-smoothing:antialiased}
   .wrap{max-width:1180px;margin:0 auto;padding:32px 20px 80px}
-  header{padding:8px 0 20px;border-bottom:1px solid var(--line);margin-bottom:24px}
+  header{padding:8px 0 18px;border-bottom:1px solid var(--line);margin-bottom:8px}
   h1{font-size:24px;margin:0 0 6px;letter-spacing:-.3px}
   .sub{color:var(--mut);font-size:14px;line-height:1.6}
   .sub a{color:var(--blue);text-decoration:none}
-  .nav{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 0;position:sticky;top:0;
+  .nav{display:flex;gap:8px;flex-wrap:wrap;margin:0;position:sticky;top:0;
     background:var(--bg);padding:12px 0;z-index:20;border-bottom:1px solid var(--line)}
   .nav a{font-size:13px;font-weight:600;text-decoration:none;color:var(--ink);
     padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:var(--panel)}
   .nav a .c{color:var(--mut);font-weight:500;margin-left:6px}
-  section{margin:34px 0 0;scroll-margin-top:64px}
-  .sec-h{display:flex;align-items:center;gap:10px;margin:0 0 14px}
-  .dot{width:10px;height:10px;border-radius:50%}
-  .sec-h h2{font-size:18px;margin:0;letter-spacing:-.2px}
+  section{margin:30px 0 0;scroll-margin-top:64px}
+  .sec-h{display:flex;align-items:center;gap:10px;margin:0 0 6px}
+  .dot{width:11px;height:11px;border-radius:50%}
+  .sec-h h2{font-size:19px;margin:0;letter-spacing:-.2px}
   .sec-h .meta{color:var(--mut);font-size:13px;margin-left:auto}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+  .cat{margin:18px 0 0}
+  .cat-h{display:flex;align-items:center;gap:8px;margin:0 0 9px;
+    font-size:13px;font-weight:700;color:var(--ink)}
+  .cat-h .bar{width:3px;height:14px;border-radius:2px;background:var(--mut)}
+  .cat-h .n{color:var(--mut);font-weight:500}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(146px,1fr));gap:10px}
   .cell{position:relative;border:1px solid var(--line);border-radius:10px;overflow:hidden;
     background:var(--panel);cursor:zoom-in;aspect-ratio:9/16}
-  .cell img{width:100%;height:100%;object-fit:cover;display:block;
-    background:#000;transition:transform .2s}
+  .cell img{width:100%;height:100%;object-fit:cover;display:block;background:#000;transition:transform .2s}
   .cell:hover img{transform:scale(1.04)}
-  .cell .n{position:absolute;left:6px;bottom:6px;font-size:11px;font-weight:600;
-    color:#fff;background:rgba(0,0,0,.6);padding:2px 7px;border-radius:6px;backdrop-filter:blur(4px)}
-  /* lightbox */
+  .cell .n{position:absolute;left:6px;bottom:6px;font-size:11px;font-weight:600;color:#fff;
+    background:rgba(0,0,0,.6);padding:2px 7px;border-radius:6px;backdrop-filter:blur(4px)}
   .lb{position:fixed;inset:0;background:rgba(5,5,10,.94);display:none;
     align-items:center;justify-content:center;z-index:100;flex-direction:column}
   .lb.on{display:flex}
   .lb img{max-width:92vw;max-height:84vh;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,.6)}
   .lb .cap{color:var(--mut);font-size:13px;margin-top:14px}
-  .lb .x{position:absolute;top:18px;right:22px;font-size:30px;color:#fff;cursor:pointer;
-    background:none;border:none;line-height:1}
-  .lb .arr{position:absolute;top:50%;transform:translateY(-50%);font-size:34px;color:#fff;
-    cursor:pointer;background:rgba(0,0,0,.4);border:none;padding:8px 16px;border-radius:10px}
+  .lb .x{position:absolute;top:18px;right:22px;font-size:30px;color:#fff;cursor:pointer;background:none;border:none;line-height:1}
+  .lb .arr{position:absolute;top:50%;transform:translateY(-50%);font-size:34px;color:#fff;cursor:pointer;
+    background:rgba(0,0,0,.4);border:none;padding:8px 16px;border-radius:10px}
   .lb .arr.prev{left:18px} .lb .arr.next{right:18px}
   @media(max-width:600px){
-    .grid{grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:7px}
+    .grid{grid-template-columns:repeat(auto-fill,minmax(108px,1fr));gap:7px}
     .lb .arr{font-size:26px;padding:6px 10px}
   }
 </style>
@@ -60,33 +60,12 @@
   <header>
     <h1>인스타 자료 갤러리</h1>
     <div class="sub">
-      계정별 원본 화면 프레임 — 녹화 시간순 정렬 · 인사이트 없이 사진만.<br>
-      출처: 2026-06-29 화면녹화 2초 간격 추출. · <a href="index.html">← 분석 대시보드로</a>
+      계정별 ▸ 종류별 정리 · 같은 화면 <b>중복 제거</b> · 종류 안은 시간순.<br>
+      출처: 2026-06-29 화면녹화에서 추출. · <a href="index.html">← 분석 대시보드로</a>
     </div>
-    <nav class="nav">
-      <a href="#suju">sujunypark<span class="c">66</span></a>
-      <a href="#jinwoo">jinwoo_ooo1<span class="c">58</span></a>
-      <a href="#jungwoo">jungwoo_eun<span class="c">24</span></a>
-    </nav>
   </header>
-
-  <section id="suju">
-    <div class="sec-h"><span class="dot" style="background:var(--green)"></span>
-      <h2>sujunypark</h2><span class="meta">66 프레임 · 녹화 시간순</span></div>
-    <div class="grid" data-account="suju" data-count="66"></div>
-  </section>
-
-  <section id="jinwoo">
-    <div class="sec-h"><span class="dot" style="background:var(--blue)"></span>
-      <h2>jinwoo_ooo1</h2><span class="meta">58 프레임 · 녹화 시간순</span></div>
-    <div class="grid" data-account="jinwoo" data-count="58"></div>
-  </section>
-
-  <section id="jungwoo">
-    <div class="sec-h"><span class="dot" style="background:var(--pink)"></span>
-      <h2>jungwoo_eun</h2><span class="meta">24 프레임 · 녹화 시간순</span></div>
-    <div class="grid" data-account="jungwoo" data-count="24"></div>
-  </section>
+  <nav class="nav" id="nav"></nav>
+  <div id="root"></div>
 </div>
 
 <div class="lb" id="lb">
@@ -98,42 +77,82 @@
 </div>
 
 <script>
+const DATA = [
+  {id:'suju', label:'sujunypark', color:'var(--green)', cats:[
+    {name:'프로필 · 계정 세팅', frames:[2,4,66]},
+    {name:'프로페셔널 대시보드', frames:[7]},
+    {name:'조회 · 도달 분석', frames:[9,10,11,12,13,14]},
+    {name:'인터랙션 분석', frames:[16,17,18,19,20]},
+    {name:'팔로워 분석', frames:[22,23,24,25,26]},
+    {name:'릴스 · 안녕하세요 (4.7K)', frames:[39,41,43,44,46]},
+    {name:'릴스 · 오늘 어때요 (3.7K)', frames:[51,52,54,55,57]},
+    {name:'릴스 · 믿어요 (492)', frames:[32,34,35,37,38]},
+    {name:'릴스 · 또 왔네요 (229)', frames:[61,63,64,65]},
+    {name:'기타 (메뉴·전환)', frames:[1,29,31]},
+  ]},
+  {id:'jinwoo', label:'jinwoo_ooo1', color:'var(--blue)', cats:[
+    {name:'프로필 · 계정 세팅', frames:[1,3,22,32,57]},
+    {name:'프로페셔널 대시보드', frames:[14]},
+    {name:'조회 · 도달 분석', frames:[5,6,7,8,9]},
+    {name:'인터랙션 분석', frames:[10,11,12,13]},
+    {name:'팔로워 분석', frames:[15,16,17,18,19,20]},
+    {name:'릴스 · DAY2 (최고 성과)', frames:[34,35,36,37,38]},
+    {name:'릴스 · DAY3', frames:[39,42,43,44,45,46,47]},
+    {name:'릴스 · DAY4', frames:[48,50,51,52,53,55,56]},
+    {name:'릴스 · DAY1', frames:[25,26,28,29,30]},
+    {name:'기타 (메뉴·전환)', frames:[24,27,33,41]},
+  ]},
+  {id:'jungwoo', label:'jungwoo_eun', color:'var(--pink)', cats:[
+    {name:'프로필 · 계정 세팅', frames:[1,23,24]},
+    {name:'릴스 · 콩깍지 (318)', frames:[3,4,5,6,7,8,9]},
+    {name:'릴스 · 심쿵 / KOONG (233)', frames:[14,15,16,19,20,22]},
+    {name:'기타 (메뉴·전환)', frames:[12,13]},
+  ]},
+];
+
 const pad=n=>String(n).padStart(3,'0');
-const flat=[]; // {src, label} in DOM order for lightbox navigation
-document.querySelectorAll('.grid').forEach(g=>{
-  const acc=g.dataset.account, cnt=+g.dataset.count;
-  const frag=document.createDocumentFragment();
-  for(let i=1;i<=cnt;i++){
-    const src=`shots/${acc}/frame_${pad(i)}.jpg`;
-    const idx=flat.length;
-    flat.push({src,label:`${acc} · frame ${pad(i)} (${i*2}s)`});
-    const cell=document.createElement('div');
-    cell.className='cell';
-    cell.dataset.idx=idx;
-    cell.innerHTML=`<img loading="lazy" src="${src}" alt="${acc} frame ${pad(i)}"><span class="n">${pad(i)}</span>`;
-    frag.appendChild(cell);
-  }
-  g.appendChild(frag);
+const flat=[]; // lightbox order
+const nav=document.getElementById('nav'), root=document.getElementById('root');
+
+DATA.forEach(acc=>{
+  const total=acc.cats.reduce((s,c)=>s+c.frames.length,0);
+  const a=document.createElement('a');
+  a.href='#'+acc.id; a.innerHTML=`${acc.label}<span class="c">${total}</span>`;
+  nav.appendChild(a);
+
+  const sec=document.createElement('section'); sec.id=acc.id;
+  sec.innerHTML=`<div class="sec-h"><span class="dot" style="background:${acc.color}"></span>
+    <h2>${acc.label}</h2><span class="meta">${total}장 · ${acc.cats.length}종</span></div>`;
+
+  acc.cats.forEach(cat=>{
+    const block=document.createElement('div'); block.className='cat';
+    block.innerHTML=`<div class="cat-h"><span class="bar" style="background:${acc.color}"></span>
+      ${cat.name}<span class="n">· ${cat.frames.length}</span></div>`;
+    const grid=document.createElement('div'); grid.className='grid';
+    cat.frames.forEach(fn=>{
+      const src=`shots/${acc.id}/frame_${pad(fn)}.jpg`;
+      const idx=flat.length;
+      flat.push({src,label:`${acc.label} · ${cat.name} · frame ${pad(fn)}`});
+      const cell=document.createElement('div'); cell.className='cell'; cell.dataset.idx=idx;
+      cell.innerHTML=`<img loading="lazy" src="${src}" alt=""><span class="n">${pad(fn)}</span>`;
+      grid.appendChild(cell);
+    });
+    block.appendChild(grid); sec.appendChild(block);
+  });
+  root.appendChild(sec);
 });
 
-const lb=document.getElementById('lb'),lbImg=document.getElementById('lbImg'),
-      lbCap=document.getElementById('lbCap');
+const lb=document.getElementById('lb'),lbImg=document.getElementById('lbImg'),lbCap=document.getElementById('lbCap');
 let cur=0;
-function show(i){cur=(i+flat.length)%flat.length;lbImg.src=flat[cur].src;
-  lbCap.textContent=flat[cur].label;lb.classList.add('on');}
+function show(i){cur=(i+flat.length)%flat.length;lbImg.src=flat[cur].src;lbCap.textContent=flat[cur].label;lb.classList.add('on');}
 function hide(){lb.classList.remove('on');lbImg.src='';}
-document.addEventListener('click',e=>{
-  const cell=e.target.closest('.cell');if(cell){show(+cell.dataset.idx);}});
+document.addEventListener('click',e=>{const c=e.target.closest('.cell');if(c)show(+c.dataset.idx);});
 document.getElementById('lbX').onclick=hide;
 document.getElementById('lbPrev').onclick=e=>{e.stopPropagation();show(cur-1);};
 document.getElementById('lbNext').onclick=e=>{e.stopPropagation();show(cur+1);};
 lb.onclick=e=>{if(e.target===lb)hide();};
-document.addEventListener('keydown',e=>{
-  if(!lb.classList.contains('on'))return;
-  if(e.key==='Escape')hide();
-  else if(e.key==='ArrowLeft')show(cur-1);
-  else if(e.key==='ArrowRight')show(cur+1);
-});
+document.addEventListener('keydown',e=>{if(!lb.classList.contains('on'))return;
+  if(e.key==='Escape')hide();else if(e.key==='ArrowLeft')show(cur-1);else if(e.key==='ArrowRight')show(cur+1);});
 </script>
 </body>
 </html>
