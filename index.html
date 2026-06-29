@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>인스타그램 인사이트 분석 · 2026-06-29</title>
+<style>
+  :root{
+    --bg:#0a0e1a; --bg2:#0f1424; --card:#151b2e; --card2:#1b2238;
+    --ink:#eef2ff; --mut:#9aa6c7; --dim:#6b769a;
+    --line:#26304d;
+    --pink:#ff4d8d; --pinkbg:rgba(255,77,141,.14);
+    --blue:#5a8bff; --bluebg:rgba(90,139,255,.14);
+    --green:#34d399; --greenbg:rgba(52,211,153,.14);
+    --purple:#a78bfa; --purplebg:rgba(167,139,250,.14);
+    --amber:#fbbf24; --amberbg:rgba(251,191,36,.14);
+    --radius:18px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard","Segoe UI",Roboto,sans-serif;
+    background:linear-gradient(180deg,#0a0e1a 0%,#0c1120 100%);
+    color:var(--ink); line-height:1.55; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1040px;margin:0 auto;padding:0 20px 120px}
+
+  /* ===== Header ===== */
+  header{
+    background:linear-gradient(135deg,#141a30 0%,#0e1322 100%);
+    border-bottom:1px solid var(--line);
+    padding:46px 20px 40px; text-align:center; position:relative; overflow:hidden;
+  }
+  header::before{content:"";position:absolute;inset:0;
+    background:radial-gradient(circle at 20% 0%,rgba(255,77,141,.18),transparent 45%),
+               radial-gradient(circle at 85% 30%,rgba(90,139,255,.18),transparent 50%);}
+  header .inner{position:relative;max-width:1040px;margin:0 auto}
+  .eyebrow{display:inline-block;font-size:12px;letter-spacing:3px;color:var(--pink);
+    font-weight:700;border:1px solid rgba(255,77,141,.35);padding:5px 14px;border-radius:999px;margin-bottom:18px}
+  header h1{font-size:clamp(26px,5vw,42px);font-weight:800;letter-spacing:-1px;line-height:1.2}
+  header h1 .accent{background:linear-gradient(90deg,var(--pink),var(--purple));-webkit-background-clip:text;background-clip:text;color:transparent}
+  header p.sub{color:var(--mut);font-size:15px;margin-top:14px;max-width:640px;margin-left:auto;margin-right:auto}
+  .meta-chips{margin-top:22px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+  .meta-chips span{background:rgba(255,255,255,.05);border:1px solid var(--line);
+    color:var(--mut);font-size:12.5px;padding:6px 13px;border-radius:999px}
+
+  /* ===== Timeline section ===== */
+  section{position:relative;padding:54px 0 6px;margin-left:14px;
+    border-left:2px solid var(--line);padding-left:34px}
+  section::before{content:"";position:absolute;left:-9px;top:62px;width:16px;height:16px;
+    border-radius:50%;background:var(--c,var(--pink));box-shadow:0 0 0 5px var(--bg),0 0 18px var(--c,var(--pink))}
+  .sec-label{position:absolute;left:-9px;top:0;font-size:11px;font-weight:800;letter-spacing:2px;
+    color:var(--c,var(--pink));text-transform:uppercase}
+  .sec-num{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:9px;
+    background:var(--cbg,var(--pinkbg));color:var(--c,var(--pink));font-weight:800;font-size:14px;margin-right:12px}
+  h2{font-size:clamp(20px,3.4vw,28px);font-weight:800;letter-spacing:-.5px;display:flex;align-items:center}
+  h2 small{display:block;font-size:13px;font-weight:500;color:var(--dim);margin-top:4px;margin-left:42px}
+  .h2line{margin-bottom:24px}
+
+  /* ===== Cards / grid ===== */
+  .grid{display:grid;gap:16px}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  .g2{grid-template-columns:repeat(2,1fr)}
+  .g4{grid-template-columns:repeat(4,1fr)}
+  @media(max-width:760px){.g3,.g2,.g4{grid-template-columns:1fr 1fr}.g3 .span,.full{grid-column:1/-1}}
+  @media(max-width:480px){.g3,.g2,.g4{grid-template-columns:1fr}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+  .card.tint{background:linear-gradient(160deg,var(--card2),var(--card))}
+  .badge{display:inline-block;font-size:11px;font-weight:800;letter-spacing:1px;padding:5px 11px;border-radius:8px;
+    background:var(--cbg,var(--pinkbg));color:var(--c,var(--pink));margin-bottom:14px;text-transform:uppercase}
+
+  /* KPI */
+  .kpi{display:flex;flex-direction:column;gap:3px}
+  .kpi .num{font-size:30px;font-weight:800;letter-spacing:-1px}
+  .kpi .lbl{font-size:12.5px;color:var(--mut)}
+  .kpi .delta{font-size:12px;font-weight:700;margin-top:4px}
+  .up{color:var(--green)} .flat{color:var(--dim)}
+
+  /* account header card */
+  .acct-head{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .acct-head .handle{font-size:22px;font-weight:800}
+  .acct-head .tag{font-size:12.5px;color:var(--mut)}
+  .pill{font-size:11px;padding:4px 10px;border-radius:999px;border:1px solid var(--line);color:var(--mut)}
+  .tag{font-size:12.5px;color:var(--mut)}
+
+  /* bar rows */
+  .bars{display:flex;flex-direction:column;gap:11px;margin-top:6px}
+  .bar-row{display:grid;grid-template-columns:96px 1fr 52px;align-items:center;gap:10px;font-size:13px}
+  .bar-row .bl{color:var(--mut)}
+  .track{height:9px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden}
+  .fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--c,var(--pink)),color-mix(in srgb,var(--c,var(--pink)) 55%,#fff))}
+  .bv{text-align:right;font-weight:700;font-size:12.5px}
+
+  /* stat list */
+  .statline{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+  .statline:last-child{border-bottom:0}
+  .statline b{font-weight:700}
+  .statline .v{font-weight:800}
+
+  /* screenshots */
+  .shots{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:6px}
+  @media(max-width:760px){.shots{grid-template-columns:repeat(2,1fr)}}
+  .shot{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#000}
+  .shot img{width:100%;display:block;aspect-ratio:9/16;object-fit:cover;object-position:top}
+  .shot .cap{font-size:11px;color:var(--mut);padding:8px 10px;background:var(--card)}
+
+  /* insight bullets */
+  .ins{display:flex;gap:13px;padding:15px 0;border-bottom:1px solid var(--line)}
+  .ins:last-child{border-bottom:0}
+  .ins .ic{flex:0 0 34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+    font-weight:800;background:var(--cbg,var(--pinkbg));color:var(--c,var(--pink))}
+  .ins .tx b{display:block;margin-bottom:2px}
+  .ins .tx span{font-size:13.5px;color:var(--mut)}
+
+  .note{font-size:12px;color:var(--dim);margin-top:14px}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--mut);margin-bottom:14px}
+  .legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:middle}
+  svg{display:block;width:100%;height:auto;overflow:visible}
+  footer{text-align:center;color:var(--dim);font-size:12.5px;margin-top:60px;padding-top:28px;border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="inner">
+    <span class="eyebrow">INSTAGRAM INSIGHTS · K-CONTENT</span>
+    <h1>한국어·K-콘텐츠 릴스 <span class="accent">성장 인사이트</span></h1>
+    <p class="sub">3개 계정의 시간대별 캡처 데이터와 30일 인사이트를 통합 분석한 리포트입니다. 무엇이 도달을 만들고, 무엇이 팔로우로 전환되는가.</p>
+    <div class="meta-chips">
+      <span>분석일 2026-06-29</span>
+      <span>대상 3개 계정</span>
+      <span>집계 최근 30일 (5/29–6/27)</span>
+      <span>시계열 6/25–6/28</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- ===== SEC 1 : 종합 요약 ===== -->
+<section style="--c:var(--pink);--cbg:var(--pinkbg)">
+  <div class="sec-label">SUMMARY</div>
+  <div class="h2line">
+    <h2><span class="sec-num">01</span>종합 요약
+      <small>3개 계정 30일 핵심 지표 한눈에</small></h2>
+  </div>
+
+  <div class="grid g3" style="margin-bottom:16px">
+    <div class="card tint" style="--c:var(--blue);--cbg:var(--bluebg)">
+      <span class="badge">한국어 회화 · 튜터</span>
+      <div class="acct-head"><span class="handle">sujunypark</span></div>
+      <p class="tag" style="margin:6px 0 16px">팔로워 175 · 게시물 4 · "Korean Tutor"</p>
+      <div class="statline"><span>30일 조회수</span><span class="v">7,462</span></div>
+      <div class="statline"><span>30일 인터랙션</span><span class="v">1,024</span></div>
+      <div class="statline"><span>신규 팔로워</span><span class="v up">47 (+600%)</span></div>
+      <div class="statline"><span>차별점</span><span class="v" style="color:var(--green)">저장률 폭발</span></div>
+    </div>
+    <div class="card tint" style="--c:var(--purple);--cbg:var(--purplebg)">
+      <span class="badge">한국 속담 · 모델</span>
+      <div class="acct-head"><span class="handle">jinwoo_ooo1</span></div>
+      <p class="tag" style="margin:6px 0 16px">팔로워 143 · 게시물 4 · "Korean proverbs"</p>
+      <div class="statline"><span>30일 조회수</span><span class="v">3,704</span></div>
+      <div class="statline"><span>30일 인터랙션</span><span class="v">443</span></div>
+      <div class="statline"><span>신규 팔로워</span><span class="v up">56</span></div>
+      <div class="statline"><span>차별점</span><span class="v" style="color:var(--purple)">프로필 유입 전환</span></div>
+    </div>
+    <div class="card tint" style="--c:var(--amber);--cbg:var(--amberbg)">
+      <span class="badge">한국어 단어</span>
+      <div class="acct-head"><span class="handle">jungwoo_eun</span></div>
+      <p class="tag" style="margin:6px 0 16px">팔로워 9 · 게시물 2 · "한국어 배워요"</p>
+      <div class="statline"><span>릴스 조회</span><span class="v">318 / 233</span></div>
+      <div class="statline"><span>평균 시청</span><span class="v" style="color:var(--pink)">4초</span></div>
+      <div class="statline"><span>Skip rate</span><span class="v" style="color:var(--pink)">58~71%</span></div>
+      <div class="statline"><span>과제</span><span class="v" style="color:var(--pink)">전환 약함</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="badge" style="--c:var(--pink);--cbg:var(--pinkbg)">공통 시그널</span>
+    <div class="grid g4">
+      <div class="kpi"><span class="num">93~99%</span><span class="lbl">논팔로워 도달 비중</span></div>
+      <div class="kpi"><span class="num">75%+</span><span class="lbl">Reels탭+탐색 유입</span></div>
+      <div class="kpi"><span class="num">인도·이란</span><span class="lbl">핵심 해외 시청층</span></div>
+      <div class="kpi"><span class="num">시청≠팔로우</span><span class="lbl">연령대 분리 현상</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SEC 2 : 팔로워 시계열 ===== -->
+<section style="--c:var(--green);--cbg:var(--greenbg)">
+  <div class="sec-label">TIMELINE</div>
+  <div class="h2line">
+    <h2><span class="sec-num" style="--c:var(--green);--cbg:var(--greenbg)">02</span>팔로워 시계열</h2>
+    <small>6/25–6/28 캡처로 본 일자별 팔로워 누적 추이</small>
+  </div>
+
+  <div class="card">
+    <div class="legend">
+      <span><i style="background:var(--blue)"></i>sujunypark</span>
+      <span><i style="background:var(--purple)"></i>jinwoo_ooo1</span>
+      <span><i style="background:var(--amber)"></i>jungwoo_eun</span>
+    </div>
+    <svg viewBox="0 0 720 260" role="img" aria-label="팔로워 시계열">
+      <g stroke="#26304d" stroke-width="1">
+        <line x1="40" y1="20"  x2="700" y2="20"/>
+        <line x1="40" y1="80"  x2="700" y2="80"/>
+        <line x1="40" y1="140" x2="700" y2="140"/>
+        <line x1="40" y1="200" x2="700" y2="200"/>
+      </g>
+      <g fill="#6b769a" font-size="11" text-anchor="end">
+        <text x="34" y="24">200</text>
+        <text x="34" y="84">133</text>
+        <text x="34" y="144">66</text>
+        <text x="34" y="204">0</text>
+      </g>
+      <!-- sujunypark 7,27,134,175 -->
+      <polyline fill="none" stroke="#5a8bff" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"
+        points="110,193.7 300,175.7 490,79.4 680,42.5"/>
+      <!-- jinwoo 17,33,115,143 -->
+      <polyline fill="none" stroke="#a78bfa" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"
+        points="110,184.7 300,170.3 490,96.5 680,71.3"/>
+      <!-- jungwoo 0,0,9,9 -->
+      <polyline fill="none" stroke="#fbbf24" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"
+        points="110,200 300,200 490,191.9 680,191.9"/>
+      <g>
+        <circle cx="680" cy="42.5" r="4.5" fill="#5a8bff"/><text x="690" y="40" fill="#5a8bff" font-size="12" font-weight="700">175</text>
+        <circle cx="680" cy="71.3" r="4.5" fill="#a78bfa"/><text x="690" y="80" fill="#a78bfa" font-size="12" font-weight="700">143</text>
+        <circle cx="680" cy="191.9" r="4.5" fill="#fbbf24"/><text x="624" y="186" fill="#fbbf24" font-size="12" font-weight="700">9</text>
+      </g>
+      <g fill="#9aa6c7" font-size="11" text-anchor="middle">
+        <text x="110" y="222">6/25</text><text x="300" y="222">6/26</text>
+        <text x="490" y="222">6/27</text><text x="680" y="222">6/28</text>
+      </g>
+    </svg>
+    <p class="note">캡처 시점 기준 누적 팔로워. sujunypark·jinwoo_ooo1 모두 6/26→6/27 구간에서 급상승(바이럴 릴스 발생 구간)했고, 이후 완만하게 유지됩니다. jungwoo_eun은 도달은 있으나 팔로우 전환이 거의 일어나지 않았습니다.</p>
+  </div>
+</section>
+
+<!-- ===== SEC 3 : sujunypark ===== -->
+<section style="--c:var(--blue);--cbg:var(--bluebg)">
+  <div class="sec-label">ACCOUNT</div>
+  <div class="h2line">
+    <h2><span class="sec-num" style="--c:var(--blue);--cbg:var(--bluebg)">03</span>sujunypark 심층</h2>
+    <small>한국어 회화 표현 시리즈 · 최대 규모·최고 성장 (+600%)</small>
+  </div>
+
+  <div class="grid g4" style="margin-bottom:16px">
+    <div class="card kpi"><span class="num">7,462</span><span class="lbl">30일 조회수</span><span class="delta up">↗ 7.5K</span></div>
+    <div class="card kpi"><span class="num">1,024</span><span class="lbl">30일 인터랙션</span><span class="delta up">↗ 1.0K</span></div>
+    <div class="card kpi"><span class="num">+47</span><span class="lbl">신규 팔로워</span><span class="delta up">+600% · 이탈 0</span></div>
+    <div class="card kpi"><span class="num">93%</span><span class="lbl">논팔로워 도달</span><span class="delta flat">도달 4,514</span></div>
+  </div>
+
+  <div class="grid g2" style="margin-bottom:16px">
+    <div class="card">
+      <span class="badge" style="--c:var(--blue);--cbg:var(--bluebg)">TOP REEL ①</span>
+      <b style="font-size:16px">안녕하세요 / Hello</b>
+      <p class="tag" style="margin:4px 0 16px">조회 4,788 · 도달 3,117 · 시청유지 0:12 26%</p>
+      <div class="bars">
+        <div class="bar-row"><span class="bl">좋아요</span><div class="track"><div class="fill" style="width:100%;--c:var(--blue)"></div></div><span class="bv">394</span></div>
+        <div class="bar-row"><span class="bl">저장</span><div class="track"><div class="fill" style="width:27%;--c:var(--green)"></div></div><span class="bv">106</span></div>
+        <div class="bar-row"><span class="bl">댓글</span><div class="track"><div class="fill" style="width:10%;--c:var(--blue)"></div></div><span class="bv">39</span></div>
+        <div class="bar-row"><span class="bl">공유</span><div class="track"><div class="fill" style="width:10%;--c:var(--blue)"></div></div><span class="bv">38</span></div>
+        <div class="bar-row"><span class="bl">리포스트</span><div class="track"><div class="fill" style="width:5%;--c:var(--blue)"></div></div><span class="bv">19</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <span class="badge" style="--c:var(--blue);--cbg:var(--bluebg)">TOP REEL ②</span>
+      <b style="font-size:16px">오늘 어때요? / How are you</b>
+      <p class="tag" style="margin:4px 0 16px">조회 3,800 · 시청유지 0:11 26%</p>
+      <div class="bars">
+        <div class="bar-row"><span class="bl">저장</span><div class="track"><div class="fill" style="width:100%;--c:var(--green)"></div></div><span class="bv">147</span></div>
+        <div class="bar-row"><span class="bl">좋아요</span><div class="track"><div class="fill" style="width:79%;--c:var(--blue)"></div></div><span class="bv">223</span></div>
+        <div class="bar-row"><span class="bl">댓글</span><div class="track"><div class="fill" style="width:16%;--c:var(--blue)"></div></div><span class="bv">23</span></div>
+        <div class="bar-row"><span class="bl">공유</span><div class="track"><div class="fill" style="width:10%;--c:var(--blue)"></div></div><span class="bv">14</span></div>
+        <div class="bar-row"><span class="bl">리포스트</span><div class="track"><div class="fill" style="width:4%;--c:var(--blue)"></div></div><span class="bv">6</span></div>
+      </div>
+      <p class="note">저장 147회 — 좋아요보다 저장이 많은 보기 드문 패턴. "교육 콘텐츠 = 다시 보려고 저장"의 강력한 신호.</p>
+    </div>
+  </div>
+
+  <div class="grid g2" style="margin-bottom:16px">
+    <div class="card">
+      <span class="badge" style="--c:var(--blue);--cbg:var(--bluebg)">유입 경로 (Top Reel)</span>
+      <div class="bars">
+        <div class="bar-row"><span class="bl">Reels탭</span><div class="track"><div class="fill" style="width:100%;--c:var(--blue)"></div></div><span class="bv">78.3%</span></div>
+        <div class="bar-row"><span class="bl">탐색</span><div class="track"><div class="fill" style="width:17%;--c:var(--blue)"></div></div><span class="bv">13.1%</span></div>
+        <div class="bar-row"><span class="bl">프로필</span><div class="track"><div class="fill" style="width:5%;--c:var(--blue)"></div></div><span class="bv">3.8%</span></div>
+        <div class="bar-row"><span class="bl">피드</span><div class="track"><div class="fill" style="width:3%;--c:var(--blue)"></div></div><span class="bv">2.0%</span></div>
+        <div class="bar-row"><span class="bl">스토리</span><div class="track"><div class="fill" style="width:2%;--c:var(--blue)"></div></div><span class="bv">1.3%</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <span class="badge" style="--c:var(--blue);--cbg:var(--bluebg)">연령·지역 시그널</span>
+      <div class="statline"><span>시청 연령 중심</span><span class="v">18–34세</span></div>
+      <div class="statline"><span>실제 팔로워 다수</span><span class="v">45세+ 여성</span></div>
+      <div class="statline"><span>상위 도시</span><span class="v">아바단·첸나이·서울</span></div>
+      <div class="statline"><span>팔로워 성별</span><span class="v">여성 88.3%</span></div>
+      <p class="note">시청층(젊은층)과 팔로우 전환층(중장년 여성)이 분리 — 콘텐츠 도달과 충성도가 다른 인구를 향함.</p>
+    </div>
+  </div>
+
+  <div class="shots">
+    <div class="shot"><img src="assets/suju_dashboard.jpg" alt="팔로워 분석"><div class="cap">팔로워 도시·연령</div></div>
+    <div class="shot"><img src="assets/suju_hello.jpg" alt="안녕하세요 릴스"><div class="cap">안녕하세요 (저장 106)</div></div>
+    <div class="shot"><img src="assets/suju_today.jpg" alt="오늘 어때요 릴스"><div class="cap">오늘 어때요 (저장 147)</div></div>
+    <div class="shot"><img src="assets/suju_growth.jpg" alt="팔로워 성장 +600%"><div class="cap">팔로워 +600%</div></div>
+  </div>
+</section>
+
+<!-- ===== SEC 4 : jinwoo_ooo1 ===== -->
+<section style="--c:var(--purple);--cbg:var(--purplebg)">
+  <div class="sec-label">ACCOUNT</div>
+  <div class="h2line">
+    <h2><span class="sec-num" style="--c:var(--purple);--cbg:var(--purplebg)">04</span>jinwoo_ooo1 심층</h2>
+    <small>한국 속담 DAY 시리즈 · 비주얼+프로필 유입 전환형</small>
+  </div>
+
+  <div class="grid g4" style="margin-bottom:16px">
+    <div class="card kpi"><span class="num">3,704</span><span class="lbl">30일 조회수</span><span class="delta up">↗</span></div>
+    <div class="card kpi"><span class="num">443</span><span class="lbl">30일 인터랙션</span><span class="delta up">↗</span></div>
+    <div class="card kpi"><span class="num">+56</span><span class="lbl">신규 팔로워</span><span class="delta up">기존의 39%</span></div>
+    <div class="card kpi"><span class="num">6~8초</span><span class="lbl">평균 시청</span><span class="delta up">후킹 우수</span></div>
+  </div>
+
+  <div class="grid g2" style="margin-bottom:16px">
+    <div class="card">
+      <span class="badge" style="--c:var(--purple);--cbg:var(--purplebg)">BEST · DAY 2 (6/25)</span>
+      <p class="tag" style="margin:0 0 14px">조회 2,081 · 시청자 1,478 · 평균 8초 · <b style="color:var(--green)">팔로우 78</b></p>
+      <div class="bars">
+        <div class="bar-row"><span class="bl">좋아요</span><div class="track"><div class="fill" style="width:100%;--c:var(--purple)"></div></div><span class="bv">196</span></div>
+        <div class="bar-row"><span class="bl">저장</span><div class="track"><div class="fill" style="width:19%;--c:var(--green)"></div></div><span class="bv">37</span></div>
+        <div class="bar-row"><span class="bl">댓글</span><div class="track"><div class="fill" style="width:13%;--c:var(--purple)"></div></div><span class="bv">25</span></div>
+        <div class="bar-row"><span class="bl">공유</span><div class="track"><div class="fill" style="width:8%;--c:var(--purple)"></div></div><span class="bv">16</span></div>
+        <div class="bar-row"><span class="bl">리포스트</span><div class="track"><div class="fill" style="width:4%;--c:var(--purple)"></div></div><span class="bv">7</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <span class="badge" style="--c:var(--purple);--cbg:var(--purplebg)">DAY 2 유입 — 프로필 강세</span>
+      <div class="bars">
+        <div class="bar-row"><span class="bl">프로필</span><div class="track"><div class="fill" style="width:100%;--c:var(--green)"></div></div><span class="bv">45.0%</span></div>
+        <div class="bar-row"><span class="bl">Reels탭</span><div class="track"><div class="fill" style="width:70%;--c:var(--purple)"></div></div><span class="bv">31.6%</span></div>
+        <div class="bar-row"><span class="bl">피드</span><div class="track"><div class="fill" style="width:26%;--c:var(--purple)"></div></div><span class="bv">11.7%</span></div>
+        <div class="bar-row"><span class="bl">탐색</span><div class="track"><div class="fill" style="width:23%;--c:var(--purple)"></div></div><span class="bv">10.4%</span></div>
+      </div>
+      <p class="note">다른 계정은 Reels탭 78%인데 DAY 2는 <b>프로필 유입 45%</b> — 프로필 방문→연속 시청→팔로우의 전환 루프가 작동. 팔로우 78은 이 구조에서 나옴.</p>
+    </div>
+  </div>
+
+  <div class="grid g2" style="margin-bottom:16px">
+    <div class="card">
+      <span class="badge" style="--c:var(--purple);--cbg:var(--purplebg)">릴스별 성과 비교 (조회)</span>
+      <div class="bars">
+        <div class="bar-row"><span class="bl">DAY 2</span><div class="track"><div class="fill" style="width:100%;--c:var(--purple)"></div></div><span class="bv">2,081</span></div>
+        <div class="bar-row"><span class="bl">DAY 3</span><div class="track"><div class="fill" style="width:72%;--c:var(--purple)"></div></div><span class="bv">1,507</span></div>
+        <div class="bar-row"><span class="bl">DAY 4</span><div class="track"><div class="fill" style="width:42%;--c:var(--purple)"></div></div><span class="bv">883</span></div>
+        <div class="bar-row"><span class="bl">DAY 1</span><div class="track"><div class="fill" style="width:15%;--c:var(--purple)"></div></div><span class="bv">~320</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <span class="badge" style="--c:var(--purple);--cbg:var(--purplebg)">인구통계 시그널</span>
+      <div class="statline"><span>조회 연령 중심</span><span class="v">25–34세 35%</span></div>
+      <div class="statline"><span>팔로워 연령 최다</span><span class="v">35–44세 28%</span></div>
+      <div class="statline"><span>조회 상위국</span><span class="v">미국·한국·브라질</span></div>
+      <div class="statline"><span>팔로워 성별</span><span class="v">여 55% · 남 45%</span></div>
+    </div>
+  </div>
+
+  <div class="shots">
+    <div class="shot"><img src="assets/jinwoo_topcontent.jpg" alt="릴스별 조회"><div class="cap">릴스별 조회·도시</div></div>
+    <div class="shot"><img src="assets/jinwoo_day2.jpg" alt="DAY2 릴스"><div class="cap">DAY 2 (조회 2.1K)</div></div>
+    <div class="shot"><img src="assets/jinwoo_dashboard.jpg" alt="시청유지·유입"><div class="cap">시청유지·유입 45%</div></div>
+    <div class="shot"><img src="assets/jinwoo_demo.jpg" alt="인구통계"><div class="cap">팔로워 연령·성별</div></div>
+  </div>
+</section>
+
+<!-- ===== SEC 5 : jungwoo_eun ===== -->
+<section style="--c:var(--amber);--cbg:var(--amberbg)">
+  <div class="sec-label">ACCOUNT</div>
+  <div class="h2line">
+    <h2><span class="sec-num" style="--c:var(--amber);--cbg:var(--amberbg)">05</span>jungwoo_eun 심층</h2>
+    <small>한국어 단어 릴스 · 초기 단계 · 전환 개선 과제</small>
+  </div>
+
+  <div class="grid g4" style="margin-bottom:16px">
+    <div class="card kpi"><span class="num">318 / 233</span><span class="lbl">릴스 조회 (콩깍지/심쿵)</span></div>
+    <div class="card kpi"><span class="num">4초</span><span class="lbl">평균 시청</span><span class="delta" style="color:var(--pink)">후킹 약함</span></div>
+    <div class="card kpi"><span class="num">58~71%</span><span class="lbl">Skip rate</span><span class="delta" style="color:var(--pink)">초반 이탈</span></div>
+    <div class="card kpi"><span class="num">95~99%</span><span class="lbl">논팔로워 도달</span></div>
+  </div>
+
+  <div class="grid g2" style="margin-bottom:16px">
+    <div class="card">
+      <span class="badge" style="--c:var(--amber);--cbg:var(--amberbg)">릴스 ① 콩깍지 (318 views)</span>
+      <div class="bars">
+        <div class="bar-row"><span class="bl">좋아요</span><div class="track"><div class="fill" style="width:100%;--c:var(--amber)"></div></div><span class="bv">13</span></div>
+        <div class="bar-row"><span class="bl">저장</span><div class="track"><div class="fill" style="width:46%;--c:var(--green)"></div></div><span class="bv">6</span></div>
+        <div class="bar-row"><span class="bl">공유</span><div class="track"><div class="fill" style="width:8%;--c:var(--amber)"></div></div><span class="bv">1</span></div>
+      </div>
+      <div class="statline" style="margin-top:12px"><span>프로필 방문</span><span class="v">5</span></div>
+      <div class="statline"><span>팔로우</span><span class="v">2</span></div>
+    </div>
+    <div class="card">
+      <span class="badge" style="--c:var(--amber);--cbg:var(--amberbg)">릴스 ② 심쿵 KOONG (233 views)</span>
+      <div class="statline"><span>도달</span><span class="v">201</span></div>
+      <div class="statline"><span>평균 시청</span><span class="v">4초</span></div>
+      <div class="statline"><span>좋아요</span><span class="v">6</span></div>
+      <div class="statline"><span>저장·공유</span><span class="v" style="color:var(--pink)">0</span></div>
+      <div class="statline"><span>팔로우</span><span class="v">4</span></div>
+      <p class="note">0:15 지점 잔존 6% — 초반 급락. Skip 71%로 후킹 설계가 시급.</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <span class="badge" style="--c:var(--green);--cbg:var(--greenbg)">개선 가설</span>
+    <div class="ins" style="--c:var(--amber);--cbg:var(--amberbg)"><div class="ic">1</div><div class="tx"><b>첫 1~2초 후킹 강화</b><span>자막/텍스트 훅을 임팩트 있게, 초반 정지화면 축소 → Skip rate 하락 노림.</span></div></div>
+    <div class="ins" style="--c:var(--green);--cbg:var(--greenbg)"><div class="ic">2</div><div class="tx"><b>저장 유도 포맷화</b><span>단어 학습을 "저장각" 카드(요약·발음팁)로 재구성 → sujunypark의 저장 패턴 벤치마크.</span></div></div>
+    <div class="ins" style="--c:var(--blue);--cbg:var(--bluebg)"><div class="ic">3</div><div class="tx"><b>외국인 학습자 타깃 명확화</b><span>한국+인도+미국+이란 분산 → 영어 자막/로마자 병기 A/B 테스트.</span></div></div>
+  </div>
+
+  <div class="shots">
+    <div class="shot"><img src="assets/jungwoo_header.jpg" alt="프로필"><div class="cap">프로필 (팔로워 9)</div></div>
+    <div class="shot"><img src="assets/jungwoo_kong.jpg" alt="콩깍지 릴스"><div class="cap">콩깍지 인사이트</div></div>
+    <div class="shot"><img src="assets/jungwoo_koong.jpg" alt="심쿵 릴스"><div class="cap">심쿵 요약</div></div>
+    <div class="shot"><img src="assets/jungwoo_demo.jpg" alt="국가 분포"><div class="cap">국가 분포</div></div>
+  </div>
+</section>
+
+<!-- ===== SEC 6 : 인사이트 & 액션 ===== -->
+<section style="--c:var(--pink);--cbg:var(--pinkbg)">
+  <div class="sec-label">ACTION</div>
+  <div class="h2line">
+    <h2><span class="sec-num">06</span>핵심 인사이트 &amp; 다음 액션</h2>
+    <small>세 계정을 관통하는 결론과 실행 우선순위</small>
+  </div>
+
+  <div class="grid g2">
+    <div class="card">
+      <span class="badge" style="--c:var(--blue);--cbg:var(--bluebg)">관통하는 인사이트</span>
+      <div class="ins" style="--c:var(--blue);--cbg:var(--bluebg)"><div class="ic">①</div><div class="tx"><b>도달은 100% 알고리즘발(發)</b><span>세 계정 모두 논팔로워 93~99%, 유입의 75%+가 Reels탭·탐색. 팔로워 기반이 아니라 추천 노출이 엔진.</span></div></div>
+      <div class="ins" style="--c:var(--green);--cbg:var(--greenbg)"><div class="ic">②</div><div class="tx"><b>저장률이 교육 콘텐츠의 해자</b><span>sujunypark 저장 106·147은 "다시 볼 가치"의 증거. 저장은 알고리즘이 가장 높게 평가하는 신호.</span></div></div>
+      <div class="ins" style="--c:var(--purple);--cbg:var(--purplebg)"><div class="ic">③</div><div class="tx"><b>전환은 '프로필 유입'에서</b><span>jinwoo DAY2의 팔로우 78은 프로필 유입 45%에서 발생. 프로필을 방문하게 만드는 훅이 팔로우를 만든다.</span></div></div>
+      <div class="ins" style="--c:var(--amber);--cbg:var(--amberbg)"><div class="ic">④</div><div class="tx"><b>시청층 ≠ 팔로우층</b><span>시청은 18–34세, 팔로우 전환은 35–54세+. 콘텐츠 톤과 팔로워 커뮤니티가 다른 세대를 향함.</span></div></div>
+    </div>
+
+    <div class="card">
+      <span class="badge" style="--c:var(--pink);--cbg:var(--pinkbg)">실행 우선순위</span>
+      <div class="ins" style="--c:var(--pink);--cbg:var(--pinkbg)"><div class="ic">1</div><div class="tx"><b>첫 2초 훅 표준화</b><span>모든 릴스에 텍스트 훅+움직임. jungwoo의 Skip 71%가 1차 개선 타깃.</span></div></div>
+      <div class="ins" style="--c:var(--green);--cbg:var(--greenbg)"><div class="ic">2</div><div class="tx"><b>저장 유도 CTA 내재화</b><span>"저장해두고 따라 읽기" 포맷·문구를 표준화. 저장→재노출 루프 강화.</span></div></div>
+      <div class="ins" style="--c:var(--purple);--cbg:var(--purplebg)"><div class="ic">3</div><div class="tx"><b>프로필 최적화</b><span>방문 시 연속 시청되도록 프로필 상단 핀 릴스·일관된 썸네일 정비.</span></div></div>
+      <div class="ins" style="--c:var(--blue);--cbg:var(--bluebg)"><div class="ic">4</div><div class="tx"><b>글로벌 자막 A/B</b><span>영어·로마자 병기 버전 테스트로 인도·이란·미국 시청층 전환율 측정.</span></div></div>
+      <div class="ins" style="--c:var(--amber);--cbg:var(--amberbg)"><div class="ic">5</div><div class="tx"><b>발행 리듬 유지</b><span>바이럴은 6/26–27 집중 발생. 데일리 시리즈로 추천 노출 기회를 늘림.</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SEC 7 : 시그널 플레이북 ===== -->
+<section style="--c:var(--green);--cbg:var(--greenbg)">
+  <div class="sec-label">SIGNALS</div>
+  <div class="h2line">
+    <h2><span class="sec-num" style="--c:var(--green);--cbg:var(--greenbg)">07</span>계정 활성화 시그널 플레이북</h2>
+    <small>생성 → 활성화 구간에 인스타가 흘리는 미세 신호 · 캐치 → 해석 → 이행</small>
+  </div>
+
+  <div class="shots" style="margin-bottom:16px">
+    <div class="shot"><img src="assets/sig_8steps.png" alt="프로 계정 8단계"><div class="cap">프로 계정 3/8 단계</div></div>
+    <div class="shot"><img src="assets/sig_1of4.png" alt="프로필 완성 1/4"><div class="cap">프로필 완성 1/4</div></div>
+    <div class="shot"><img src="assets/sig_metaverified.png" alt="Meta Verified 대기열"><div class="cap">Meta Verified 대기열</div></div>
+    <div class="shot"><img src="assets/sig_hiddenwords.png" alt="숨김단어 리스크"><div class="cap">숨김단어 ⚠️</div></div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <span class="badge" style="--c:var(--green);--cbg:var(--greenbg)">① 세팅·완성도 게이지 — "머 채워라"</span>
+    <div class="statline"><span>Set up professional account <b>3/8</b></span><span class="v">고객유치·소개·인사이트·목표·광고 완주</span></div>
+    <div class="statline"><span>Complete your profile <b>1/4</b></span><span class="v">이름·사진·바이오·링크 즉시 채움</span></div>
+    <div class="statline"><span>Welcome / Let's customize</span><span class="v">관심주제·언어 설정으로 추천 초기화</span></div>
+    <div class="statline"><span>Follow accounts to get started</span><span class="v">동일 니치 선팔로 → 추천 그래프 시드</span></div>
+    <p class="note">완성도 게이지는 인스타가 "활성 계정"으로 인식하는 첫 관문. 게이지 완주 = 추천 후보 진입 신호.</p>
+  </div>
+
+  <div class="grid g2" style="margin-bottom:16px">
+    <div class="card">
+      <span class="badge" style="--c:var(--blue);--cbg:var(--bluebg)">② 신뢰·부스트 유도</span>
+      <div class="statline"><span>Join waitlist · Meta Verified</span><span class="v">배지·검색최적화</span></div>
+      <div class="statline"><span>You're on the waitlist!</span><span class="v">활성기간 가산</span></div>
+      <p class="note">"대기시간은 <b>계정이 얼마나 활성화됐는지</b>에 좌우" — 초기부터 일관 업로드로 활성 이력을 쌓으면 Verified·검색노출 가산점. (19세 미만 불가)</p>
+    </div>
+    <div class="card">
+      <span class="badge" style="--c:var(--pink);--cbg:var(--pinkbg)">③ 도달 제어·리스크 ⚠️</span>
+      <div class="statline"><span>숨김단어 등록</span><span class="v" style="color:var(--pink)">Learnkorean·Kpop·Korean</span></div>
+      <div class="statline"><span>Preferred Languages</span><span class="v">EN·ID·KO·ES</span></div>
+      <div class="statline"><span>Following/invites</span><span class="v">스팸 Flag</span></div>
+      <p class="note" style="color:var(--pink)">🚨 즉시 점검 — 핵심 키워드(Korean·Kpop)가 <b>숨김단어</b>에 들어가 본인 추천노출을 자해 중. 해제 필요.</p>
+    </div>
+  </div>
+
+  <div class="grid g2" style="margin-bottom:16px">
+    <div class="card">
+      <span class="badge" style="--c:var(--amber);--cbg:var(--amberbg)">④ "히트" 마일스톤 신호</span>
+      <div class="bars">
+        <div class="bar-row"><span class="bl">안녕하세요</span><div class="track"><div class="fill" style="width:100%;--c:var(--green)"></div></div><span class="bv">66→1,980</span></div>
+        <div class="bar-row"><span class="bl">DAY2 속담</span><div class="track"><div class="fill" style="width:100%;--c:var(--green)"></div></div><span class="bv">438→2,010</span></div>
+      </div>
+      <p class="note">조회 500→1K→2K 돌파 구간이 "터지는 순간". 이때 프로필·고정릴스·하이라이트가 전환을 받아냄. ※ IG "평소보다 조회 급증" 푸시알림은 별도 캡쳐 필요.</p>
+    </div>
+    <div class="card">
+      <span class="badge" style="--c:var(--purple);--cbg:var(--purplebg)">운영 순서 — 생성→활성화</span>
+      <div class="ins" style="--c:var(--green);--cbg:var(--greenbg)"><div class="ic">1</div><div class="tx"><b>게이지 완주</b><span>프로필 1/4 · 프로 계정 8/8 모두 채움.</span></div></div>
+      <div class="ins" style="--c:var(--pink);--cbg:var(--pinkbg)"><div class="ic">2</div><div class="tx"><b>숨김단어 해제</b><span>Korean·Kpop 등 핵심 키워드 차단 즉시 제거.</span></div></div>
+      <div class="ins" style="--c:var(--blue);--cbg:var(--bluebg)"><div class="ic">3</div><div class="tx"><b>일관 업로드</b><span>활성 이력 누적 → 부스트·검색노출 가산.</span></div></div>
+      <div class="ins" style="--c:var(--purple);--cbg:var(--purplebg)"><div class="ic">4</div><div class="tx"><b>히트 시 동선 정비</b><span>조회 급증 릴스 나오면 프로필·핀 정비로 전환 수확.</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SEC 8 : 도달 메커니즘 & 최적화 루프 ===== -->
+<section style="--c:var(--blue);--cbg:var(--bluebg)">
+  <div class="sec-label">MECHANISM</div>
+  <div class="h2line">
+    <h2><span class="sec-num" style="--c:var(--blue);--cbg:var(--bluebg)">08</span>도달 메커니즘 &amp; 최적화 루프</h2>
+    <small>알고리즘이 타겟을 찾는 법 — 시드 배포 → 반응 검증 → 확장</small>
+  </div>
+
+  <!-- Skip rate 기준선 -->
+  <div class="card" style="margin-bottom:16px">
+    <span class="badge" style="--c:var(--pink);--cbg:var(--pinkbg)">핵심 KPI · 릴스 Skip rate 기준선</span>
+    <div class="grid g3" style="margin:4px 0 18px">
+      <div class="kpi"><span class="num" style="color:var(--green)">30%</span><span class="lbl">목표 (이상적)</span></div>
+      <div class="kpi"><span class="num" style="color:var(--amber)">50%</span><span class="lbl">마지노선 (안에 무조건)</span></div>
+      <div class="kpi"><span class="num" style="color:var(--pink)">50%+</span><span class="lbl">초과 = 실패</span></div>
+    </div>
+    <div class="bars">
+      <div class="bar-row"><span class="bl">suju 유지(역산)</span><div class="track"><div class="fill" style="width:34%;--c:var(--green)"></div></div><span class="bv">~33%</span></div>
+      <div class="bar-row"><span class="bl">jinwoo DAY4</span><div class="track"><div class="fill" style="width:48%;--c:var(--amber)"></div></div><span class="bv">47.6%</span></div>
+      <div class="bar-row"><span class="bl">jungwoo 콩깍지</span><div class="track"><div class="fill" style="width:58%;--c:var(--pink)"></div></div><span class="bv">57.9%</span></div>
+      <div class="bar-row"><span class="bl">jungwoo 심쿵</span><div class="track"><div class="fill" style="width:71%;--c:var(--pink)"></div></div><span class="bv">71.0%</span></div>
+    </div>
+    <p class="note">Skip 50% 선이 합격/실패의 분기점. jungwoo 두 릴스(57.9·71.0%)는 실패 구간 → 첫 2초 후킹이 1차 과제. suju·jinwoo는 50% 안쪽으로 확장 자격 확보.</p>
+  </div>
+
+  <!-- 검증 루프 -->
+  <div class="grid g2" style="margin-bottom:16px">
+    <div class="card">
+      <span class="badge" style="--c:var(--green);--cbg:var(--greenbg)">최적화 루프 — 콘텐츠가 "올라가는" 조건</span>
+      <div class="ins" style="--c:var(--blue);--cbg:var(--bluebg)"><div class="ic">1</div><div class="tx"><b>같은 패턴으로 제작</b><span>일관된 포맷·훅·길이 → IG가 "이 계정 = 이 타겟"으로 안정 학습.</span></div></div>
+      <div class="ins" style="--c:var(--purple);--cbg:var(--purplebg)"><div class="ic">2</div><div class="tx"><b>팔로워에게 먼저 배포</b><span>신규 릴스는 전체 살포 X → 내 팔로워(시드)에 먼저 노출해 반응 측정.</span></div></div>
+      <div class="ins" style="--c:var(--amber);--cbg:var(--amberbg)"><div class="ic">3</div><div class="tx"><b>4개 지표 일치 점검</b><span>스킵 비중 · 이탈 비중 · 남녀 비중 · 국가 비중이 예측 타겟과 맞는가?</span></div></div>
+      <div class="ins" style="--c:var(--green);--cbg:var(--greenbg)"><div class="ic">4</div><div class="tx"><b>맞으면 확장 노출</b><span>지표가 맞으면 그 타겟으로 죽 밀어줌 = 콘텐츠가 위로 올라감.</span></div></div>
+    </div>
+    <div class="card">
+      <span class="badge" style="--c:var(--blue);--cbg:var(--bluebg)">기본 도달 — 시드 우선 배포</span>
+      <p class="tag" style="margin:0 0 14px">초반엔 아무에게나 뿌리지 않음. 내 사람 → 반응 → 확장의 계단식 구조.</p>
+      <div class="bars">
+        <div class="bar-row"><span class="bl">시드(팔로워)</span><div class="track"><div class="fill" style="width:25%;--c:var(--blue)"></div></div><span class="bv">1차</span></div>
+        <div class="bar-row"><span class="bl">반응 검증</span><div class="track"><div class="fill" style="width:55%;--c:var(--amber)"></div></div><span class="bv">2차</span></div>
+        <div class="bar-row"><span class="bl">유사 타겟 확장</span><div class="track"><div class="fill" style="width:80%;--c:var(--green)"></div></div><span class="bv">3차</span></div>
+        <div class="bar-row"><span class="bl">바이럴</span><div class="track"><div class="fill" style="width:100%;--c:var(--pink)"></div></div><span class="bv">4차</span></div>
+      </div>
+      <p class="note">계단식 점프의 증거 — 안녕하세요 66→96→1,866→1,980, DAY2 438→730→2,010. 반응이 확인된 순간 확장 트리거가 작동.</p>
+    </div>
+  </div>
+
+  <!-- 아웃바운드 케이스 -->
+  <div class="card" style="margin-bottom:16px">
+    <span class="badge" style="--c:var(--green);--cbg:var(--greenbg)">CASE · sujunypark — 아웃바운드 활동 부트스트랩</span>
+    <div class="ins" style="--c:var(--green);--cbg:var(--greenbg)"><div class="ic">↗</div><div class="tx"><b>밖으로 나가서 활동 (팔로우·좋아요)</b><span>다른 계정을 적극 팔로우하고 외부에서 좋아요·반응 → 상대의 역유입을 만듦.</span></div></div>
+    <div class="ins" style="--c:var(--amber);--cbg:var(--amberbg)"><div class="ic">~</div><div class="tx"><b>초반 반응 저조 → 누적되며 반등</b><span>활동이 쌓이기 전엔 도달이 약하다가, 외부 유입이 시드 풀을 키우며 상승 전환.</span></div></div>
+    <div class="ins" style="--c:var(--blue);--cbg:var(--bluebg)"><div class="ic">=</div><div class="tx"><b>결과 — 3계정 중 최대 규모</b><span>팔로잉 118(가장 높음)이 곧 아웃바운드 활동량. 그 활동이 조회 7.5K·팔로워 +600%의 토대.</span></div></div>
+  </div>
+
+  <!-- 타겟 미스매치 케이스 -->
+  <div class="card" style="margin-bottom:16px">
+    <span class="badge" style="--c:var(--purple);--cbg:var(--purplebg)">CASE · jinwoo_ooo1 — 타겟 미스매치</span>
+    <p class="tag" style="margin:0 0 14px">suju와 반대형 — 아웃바운드 활동은 적고, <b>콘텐츠 완성도로 설계해서 가는 계정</b>. 그래서 인터랙션 절대량은 낮음.</p>
+    <div class="grid g2" style="margin-bottom:6px">
+      <div>
+        <div class="statline"><span class="bl" style="color:var(--mut)">의도한 타겟</span><span class="v" style="color:var(--purple)">여성 · 영어권</span></div>
+        <p class="note" style="margin-top:6px">상의탈의 모델 비주얼 = 여성·글로벌 시청층을 겨냥한 콘셉트.</p>
+      </div>
+      <div>
+        <div class="statline"><span class="bl" style="color:var(--mut)">실제 도달</span><span class="v" style="color:var(--pink)">남성 · 대한민국</span></div>
+        <p class="note" style="margin-top:6px">DAY2 시청 남 52.1% · DAY3 한국 64.5% — 타겟이 반대로 뒤집힘.</p>
+      </div>
+    </div>
+    <div class="ins" style="--c:var(--pink);--cbg:var(--pinkbg)"><div class="ic">≠</div><div class="tx"><b>왜 결과가 약했나</b><span>콘텐츠 신호(여성·영어권)와 알고리즘이 매칭한 실제 도달(남성·한국)이 어긋남 → 의도한 반응이 안 나오니 확장도 제한. 팔로워는 여성 55%로 일부 회수됐지만, 시청 도달 자체가 미스매치.</span></div></div>
+    <div class="ins" style="--c:var(--green);--cbg:var(--greenbg)"><div class="ic">→</div><div class="tx"><b>교정 방향</b><span>영어 자막·로마자 병기로 영어권 신호 강화, 썸네일·첫 2초를 여성 타깃 코드로 일관화 → IG에 "이 타겟" 신호를 명확히 재학습시킴.</span></div></div>
+  </div>
+</section>
+
+<footer>
+  내부 분석용 리포트 · 데이터 출처: Instagram 인사이트 화면 캡처 (2026-06-25 ~ 06-29)<br>
+  생성 2026-06-29 · jungwoo_eun · jinwoo_ooo1 · sujunypark
+</footer>
+
+</div>
+</body>
+</html>
