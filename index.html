@@ -113,6 +113,29 @@
   .ins .tx b{display:block;margin-bottom:2px}
   .ins .tx span{font-size:13.5px;color:var(--mut)}
 
+  /* red alert box — 계정별 주의 인사이트 */
+  .redbox{position:relative;border:1.5px solid var(--pink);border-radius:14px;
+    background:linear-gradient(160deg,rgba(255,77,141,.12),rgba(255,77,141,.04));
+    padding:16px 18px 16px 18px;margin-top:16px;box-shadow:0 0 0 3px rgba(255,77,141,.06)}
+  .redbox .rb-tag{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;
+    letter-spacing:1px;color:#ff6fa3;text-transform:uppercase;margin-bottom:8px}
+  .redbox .rb-h{font-weight:800;font-size:15px;margin-bottom:6px;color:#ffd9e6}
+  .redbox p{font-size:13px;color:#f1c9d6;margin:0}
+  .redbox .rb-row{font-size:12.5px;color:#f1c9d6;margin-top:7px;padding-top:7px;border-top:1px solid rgba(255,77,141,.22)}
+  .redbox .rb-row b{color:#fff}
+
+  /* 도달→전환 탭 미니표 */
+  .reach-tbl{display:flex;flex-direction:column;gap:0;margin-top:4px}
+  .reach-tbl .rt-row{display:grid;grid-template-columns:1fr 64px 64px 1fr;gap:10px;align-items:center;
+    padding:9px 0;border-bottom:1px solid var(--line);font-size:13px}
+  .reach-tbl .rt-row:last-child{border-bottom:0}
+  .reach-tbl .rt-head{font-size:10.5px;letter-spacing:1px;color:var(--dim);text-transform:uppercase;font-weight:800}
+  .reach-tbl .rt-name{font-weight:700}
+  .reach-tbl .rt-reach{text-align:right;font-weight:800}
+  .reach-tbl .rt-flag{text-align:center;font-weight:800}
+  .reach-tbl .rt-tab{color:var(--mut);font-size:12px;text-align:right}
+  .ok{color:var(--green)} .no{color:var(--pink)}
+
   .note{font-size:12px;color:var(--dim);margin-top:14px}
   .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--mut);margin-bottom:14px}
   .legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:middle}
@@ -233,7 +256,7 @@
         <text x="490" y="222">6/27</text><text x="680" y="222">6/28</text>
       </g>
     </svg>
-    <p class="note">캡처 시점 기준 누적 팔로워. sujunypark·jinwoo_ooo1 모두 6/26→6/27 구간에서 급상승(바이럴 릴스 발생 구간)했고, 이후 완만하게 유지됩니다. jungwoo_eun은 도달은 있으나 팔로우 전환이 거의 일어나지 않았습니다.</p>
+    <p class="note">캡처 시점 기준 누적 팔로워. <b>팔로워는 "맞는 타겟에 도달"의 결과물</b> — 급상승 구간(6/26→6/27)이 바이럴 릴스 발생 구간과 정확히 일치합니다. 도달이 올바른 타겟에 꽂히면 그만큼 팔로워가 늘고, jungwoo_eun처럼 도달이 있어도 타겟 매칭이 안 되면 팔로우 전환은 거의 일어나지 않습니다.</p>
   </div>
 </section>
 
@@ -299,6 +322,25 @@
       <div class="statline"><span>팔로워 성별</span><span class="v">여성 88.3%</span></div>
       <p class="note">시청층(젊은층)과 팔로우 전환층(중장년 여성)이 분리 — 콘텐츠 도달과 충성도가 다른 인구를 향함.</p>
     </div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <span class="badge" style="--c:var(--blue);--cbg:var(--bluebg)">① 게시물별 도달 → 전환 탭</span>
+    <div class="reach-tbl">
+      <div class="rt-row rt-head"><span>릴스</span><span class="rt-reach">도달</span><span class="rt-flag">판정</span><span class="rt-tab">전환 주도 탭</span></div>
+      <div class="rt-row"><span class="rt-name">안녕하세요</span><span class="rt-reach">3,117</span><span class="rt-flag ok">✅</span><span class="rt-tab">Reels탭 78%</span></div>
+      <div class="rt-row"><span class="rt-name">오늘 어때요</span><span class="rt-reach">~2.3K</span><span class="rt-flag ok">✅</span><span class="rt-tab">Reels탭 78%</span></div>
+      <div class="rt-row"><span class="rt-name">믿어요</span><span class="rt-reach">124</span><span class="rt-flag no">✗</span><span class="rt-tab">팔로워 30%·소규모</span></div>
+      <div class="rt-row"><span class="rt-name">잘 지냈어요</span><span class="rt-reach">235</span><span class="rt-flag" style="color:var(--amber)">△</span><span class="rt-tab">팔로워 58.7%·질적 건강</span></div>
+    </div>
+    <p class="note">도달이 큰 2편(Reels탭 추천)이 전부를 견인. '잘 지냈어요'는 도달은 작지만 <b>11초 영상에 평균시청 13초·Skip 41.7%</b>로 콘텐츠 자체는 건강 — 노출(분배) 부족이지 콘텐츠 실패가 아님.</p>
+  </div>
+
+  <div class="redbox">
+    <div class="rb-tag">🔴 sujunypark — 이 계정만 주의해서 볼 것</div>
+    <div class="rb-h">외부활동은 시드일 뿐, 폭발은 '안녕하세요' 한 편의 알고리즘 추천</div>
+    <p>7.5K·팔로워 +600%는 외부활동이 아니라 한 편의 추천 폭발(비팔로워 98%·인도 42%·이란 9%)이 견인. <b>한 편 의존도가 높다</b>는 게 리스크 — 같은 공식의 후속 편으로 분산 필요.</p>
+    <div class="rb-row">워딩 강점: <b>3중 자막(영+한+로마자)</b>로 학습자 친화 최고. 약점은 통일도 — 편별 편차가 jinwoo보다 큼.</div>
   </div>
 
   <div class="shots">
@@ -367,6 +409,25 @@
     </div>
   </div>
 
+  <div class="card" style="margin-bottom:16px">
+    <span class="badge" style="--c:var(--purple);--cbg:var(--purplebg)">① 게시물별 도달 → 전환 탭</span>
+    <div class="reach-tbl">
+      <div class="rt-row rt-head"><span>릴스</span><span class="rt-reach">도달</span><span class="rt-flag">판정</span><span class="rt-tab">전환 주도 탭</span></div>
+      <div class="rt-row"><span class="rt-name">DAY 2</span><span class="rt-reach">1,478</span><span class="rt-flag ok">✅</span><span class="rt-tab">프로필 45%(전환 통로)</span></div>
+      <div class="rt-row"><span class="rt-name">DAY 3</span><span class="rt-reach">1,147</span><span class="rt-flag ok">✅</span><span class="rt-tab">Reels탭·한국 64.5% 쏠림</span></div>
+      <div class="rt-row"><span class="rt-name">DAY 4</span><span class="rt-reach">623</span><span class="rt-flag no">✗</span><span class="rt-tab">Skip 47.6%·축소</span></div>
+      <div class="rt-row"><span class="rt-name">DAY 1</span><span class="rt-reach">~250</span><span class="rt-flag no">✗</span><span class="rt-tab">Skip 66.7%</span></div>
+    </div>
+    <p class="note"><b>전환 탭이 다른 게 핵심</b> — DAY2만 프로필 유입 45%로 팔로우 78을 만듦. 나머지는 Reels탭 도달은 돼도 프로필로 끌어오는 훅이 약해 전환이 안 붙음.</p>
+  </div>
+
+  <div class="redbox">
+    <div class="rb-tag">🔴 jinwoo_ooo1 — 이 계정만 주의해서 볼 것</div>
+    <div class="rb-h">결과는 "국가 도달 폭"이 좌우 — 글로벌이면 터지고, 한국 쏠리면 식는다</div>
+    <p>가설 "남성·한국으로 뒤집혀 망함"은 <b>데이터로 기각</b>. 성별은 의도대로 전환됨(팔로워 여 55%). 망함의 신호는 한국 집중(DAY3 64.5%)이고, 터진 DAY2는 글로벌(미국 17%) — 인과가 가설과 반대.</p>
+    <div class="rb-row">워딩 강점: <b>3계정 중 가장 구체·통일</b>(인사형 훅 → DAY N 시리즈 → 영+한 2중 자막). 이 일관성이 프로필 유입 45%·팔로우 78의 배경.</div>
+  </div>
+
   <div class="shots">
     <div class="shot"><img src="assets/jinwoo_topcontent.jpg" alt="릴스별 조회"><div class="cap">릴스별 조회·도시</div></div>
     <div class="shot"><img src="assets/jinwoo_day2.jpg" alt="DAY2 릴스"><div class="cap">DAY 2 (조회 2.1K)</div></div>
@@ -419,6 +480,23 @@
     <div class="ins" style="--c:var(--blue);--cbg:var(--bluebg)"><div class="ic">3</div><div class="tx"><b>외국인 학습자 타깃 명확화</b><span>한국+인도+미국+이란 분산 → 영어 자막/로마자 병기 A/B 테스트.</span></div></div>
   </div>
 
+  <div class="card" style="margin-bottom:16px">
+    <span class="badge" style="--c:var(--amber);--cbg:var(--amberbg)">① 게시물별 도달 → 전환 탭</span>
+    <div class="reach-tbl">
+      <div class="rt-row rt-head"><span>릴스</span><span class="rt-reach">도달</span><span class="rt-flag">판정</span><span class="rt-tab">전환 주도 탭</span></div>
+      <div class="rt-row"><span class="rt-name">콩깍지</span><span class="rt-reach">~310</span><span class="rt-flag no">✗</span><span class="rt-tab">Reels탭 76%·전환 미미</span></div>
+      <div class="rt-row"><span class="rt-name">심쿵 KOONG</span><span class="rt-reach">201</span><span class="rt-flag no">✗</span><span class="rt-tab">Reels탭 72%·저장·공유 0</span></div>
+    </div>
+    <p class="note">도달은 추천(Reels탭)으로 발생하나 <b>전환 탭이 죽어 있음</b> — 프로필로 끌어오는 훅·저장 유도가 없어 도달→팔로우 루프가 작동 안 함.</p>
+  </div>
+
+  <div class="redbox">
+    <div class="rb-tag">🔴 jungwoo_eun — 이 계정만 주의해서 볼 것</div>
+    <div class="rb-h">1순위 과제는 후킹이 아니라 "통일" — 매회 포맷·워딩이 제각각</div>
+    <p>훅 공식도 로마자도 없이 영어 단어 1개("WORD")로 매번 다르게 감 → <b>알고리즘이 "이 계정=무엇"을 학습할 기준이 없다.</b> 그래서 도달돼도 전환이 0에 수렴. 통일된 시리즈(jinwoo DAY식)로 묶는 게 첫 수.</p>
+    <div class="rb-row">워딩 현황: 영어 주도 + 한국어 단어 1개. suju의 3중 자막·jinwoo의 시리즈 공식을 벤치마크해 <b>고정 포맷</b>부터 만들 것.</div>
+  </div>
+
   <div class="shots">
     <div class="shot"><img src="assets/jungwoo_header.jpg" alt="프로필"><div class="cap">프로필 (팔로워 9)</div></div>
     <div class="shot"><img src="assets/jungwoo_kong.jpg" alt="콩깍지 릴스"><div class="cap">콩깍지 인사이트</div></div>
@@ -433,6 +511,25 @@
   <div class="h2line">
     <h2><span class="sec-num">06</span>핵심 인사이트 &amp; 다음 액션</h2>
     <small>세 계정을 관통하는 결론과 실행 우선순위</small>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <span class="badge" style="--c:var(--green);--cbg:var(--greenbg)">워딩·통일도 — OCR 실측 (통일+구체 = 알고리즘 매칭 가속)</span>
+    <div class="grid g3" style="margin-top:4px">
+      <div class="card tint">
+        <div class="statline"><span class="bl" style="color:var(--mut)">jinwoo</span><span class="v ok">✅ 통일·구체</span></div>
+        <p class="note" style="margin-top:8px;color:var(--mut)"><b style="color:var(--ink)">인사형 훅 → DAY N 시리즈 → 영+한 2중 자막</b>의 고정 공식. 매회 동일 → "이 계정=속담" 학습 빠름. 프로필 유입·전환의 배경.</p>
+      </div>
+      <div class="card tint">
+        <div class="statline"><span class="bl" style="color:var(--mut)">suju</span><span class="v" style="color:var(--amber)">△ 부분 통일</span></div>
+        <p class="note" style="margin-top:8px;color:var(--mut)"><b style="color:var(--ink)">영+한+로마자 3중 자막</b>으로 학습자 친화 최고. 회화 문장형이나 편별 편차 있어 브랜딩 통일성은 jinwoo보다 낮음.</p>
+      </div>
+      <div class="card tint">
+        <div class="statline"><span class="bl" style="color:var(--mut)">jungwoo</span><span class="v no">✗ 제각각</span></div>
+        <p class="note" style="margin-top:8px;color:var(--mut)"><b style="color:var(--ink)">영어 단어 1개("WORD")</b>·훅 공식 없음·로마자 없음. 매회 달라 알고리즘이 타겟 고정 불가 → 통일된 공식 만들기가 1순위.</p>
+      </div>
+    </div>
+    <p class="note">핵심 인과: <b>통일·구체적 워딩일수록 알고리즘이 타겟(나라·성별·연령)을 빨리 고정</b> → 도달 확장·전환 가속. jungwoo의 첫 과제는 후킹 강화가 아니라 "고정 포맷" 확립.</p>
   </div>
 
   <div class="grid g2">
@@ -512,6 +609,17 @@
       <div class="ins" style="--c:var(--purple);--cbg:var(--purplebg)"><div class="ic">4</div><div class="tx"><b>히트 시 동선 정비</b><span>조회 급증 릴스 나오면 프로필·핀 정비로 전환 수확.</span></div></div>
     </div>
   </div>
+
+  <div class="card" style="margin-bottom:16px;border-color:var(--green)">
+    <span class="badge" style="--c:var(--green);--cbg:var(--greenbg)">⑤ 댓글 답장 = 도달 부스터 — IG가 직접 띄운 신호</span>
+    <p class="tag" style="margin:0 0 14px">jinwoo 릴스 댓글창에 인스타가 직접 안내 문구를 띄움 — <b>"첫 2일(며칠) 내 답장이 대화를 이어가 도달을 늘릴 수 있다"</b>.</p>
+    <div class="redbox" style="border-color:var(--green);background:linear-gradient(160deg,rgba(52,211,153,.12),rgba(52,211,153,.04));box-shadow:0 0 0 3px rgba(52,211,153,.06);margin-top:0">
+      <div class="rb-tag" style="color:#5be3b0">📌 IG 원문</div>
+      <p style="color:#cdeede;font-size:14px;font-style:italic">"Replying to comments within the first couple of days can keep the conversation going, which may lead to more reach."</p>
+    </div>
+    <div class="ins" style="--c:var(--green);--cbg:var(--greenbg)"><div class="ic">↗</div><div class="tx"><b>왜 도달이 느나 — 초기 속도(velocity)</b><span>업로드 후 초기 창의 댓글 응답 → 스레드 활성·재방문 유발 → 초기 반응 "속도"가 올라 확장 트리거가 켜짐. 콘텐츠를 더 만드는 것만큼 <b>올린 직후 2일 댓글 관리가 도달 레버</b>.</span></div></div>
+    <div class="ins" style="--c:var(--blue);--cbg:var(--bluebg)"><div class="ic">✓</div><div class="tx"><b>실제 이행 중</b><span>jinwoo는 이미 댓글에 작성자 답글·하트로 응답(2d·15h 단 댓글에 @멘션 답글). 이 행동을 <b>전 계정 운영 루틴으로 표준화</b>: 업로드 후 48h 내 모든 댓글 답장.</span></div></div>
+  </div>
 </section>
 
 <!-- ===== SEC 8 : 도달 메커니즘 & 최적화 루프 ===== -->
@@ -537,6 +645,18 @@
       <div class="bar-row"><span class="bl">jungwoo 심쿵 ✗</span><div class="track"><div class="fill" style="width:71%;--c:var(--pink)"></div></div><span class="bv">71.0%</span></div>
     </div>
     <p class="note">실측 데이터로 검증됨 — <b>터진 릴스는 전부 50% 미만</b>(DAY2 40.0%·안녕하세요 47.5%·DAY3 36.3%), <b>망한 릴스는 전부 57% 초과</b>(DAY1 66.7%·믿어요 65.4%·콩깍지 57.9%·심쿵 71.0%). 예외 0건 → 50% 분기선 가설은 이 데이터에서 입증.</p>
+  </div>
+
+  <!-- 신규 게시물 전파 단계 -->
+  <div class="card" style="margin-bottom:16px">
+    <span class="badge" style="--c:var(--amber);--cbg:var(--amberbg)">신규 게시물 전파 단계 — 바로 안 퍼진다, 나라·성별이 바뀐다</span>
+    <div class="grid g4" style="margin:4px 0 8px">
+      <div class="card tint"><div class="statline"><span class="bl" style="color:var(--mut)">STEP 1</span><span class="v" style="color:var(--blue)">팔로워 우선</span></div><p class="note" style="margin-top:6px;color:var(--mut)">업로드 직후 전체 살포 X. 내 팔로워(시드)에 먼저 노출.</p></div>
+      <div class="card tint"><div class="statline"><span class="bl" style="color:var(--mut)">STEP 2</span><span class="v" style="color:var(--amber)">반응 측정</span></div><p class="note" style="margin-top:6px;color:var(--mut)">Skip·이탈·저장 + 남녀·국가 비중을 읽음.</p></div>
+      <div class="card tint"><div class="statline"><span class="bl" style="color:var(--mut)">STEP 3</span><span class="v" style="color:var(--green)">새 타겟 전파</span></div><p class="note" style="margin-top:6px;color:var(--mut)">반응 좋으면 확장 — <b style="color:var(--ink)">이때 나라·성별이 바뀜</b>.</p></div>
+      <div class="card tint"><div class="statline"><span class="bl" style="color:var(--mut)">STEP 4</span><span class="v" style="color:var(--pink)">밀기 / 정지</span></div><p class="note" style="margin-top:6px;color:var(--mut)">새 타겟 반응 보고 더 밀거나 멈춤.</p></div>
+    </div>
+    <p class="note">실증 — jinwoo는 릴스마다 전파 타겟이 달라짐: <b>DAY2는 글로벌(미국 17%)로 확장돼 터지고, DAY3는 한국 64.5%로 좁혀져 식음.</b> 같은 계정이라도 매 게시물의 전파 경로(나라·성별)가 결과를 가른다 → STEP 2의 4개 지표(스킵·이탈·남녀·국가)가 예측 타겟과 맞는지가 확장 트리거.</p>
   </div>
 
   <!-- 검증 루프 -->
@@ -585,6 +705,95 @@
     </div>
     <div class="ins" style="--c:var(--pink);--cbg:var(--pinkbg)"><div class="ic">≠</div><div class="tx"><b>가설 교정 — "남성·한국으로 뒤집혀 망했다"는 데이터로 기각</b><span>성별은 의도대로(팔로워 여 55%), 망함의 신호는 "한국 집중"이었다. 글로벌 추천을 탄 릴스가 터지고, 한국으로 좁혀진 릴스가 식음 → 미스매치가 아니라 <b>국가 도달 폭의 문제</b>.</span></div></div>
     <div class="ins" style="--c:var(--green);--cbg:var(--greenbg)"><div class="ic">→</div><div class="tx"><b>교정 방향</b><span>영어 자막·로마자 병기로 글로벌 추천 신호를 강화 → 한국에 갇히지 않고 미국·인도 등 비팔로워 추천망으로 도달 폭을 넓히는 게 핵심.</span></div></div>
+  </div>
+</section>
+
+<!-- ===== SEC 9 : 매칭 & 속도 운영 모델 ===== -->
+<section style="--c:var(--purple);--cbg:var(--purplebg)">
+  <div class="sec-label">OPERATING MODEL</div>
+  <div class="h2line">
+    <h2><span class="sec-num" style="--c:var(--purple);--cbg:var(--purplebg)">09</span>매칭 &amp; 속도 운영 모델</h2>
+    <small>도달이 1순위 — 단, "조회수"가 아니라 "맞는 타겟에 매칭된 도달의 속도"를 본다</small>
+  </div>
+
+  <!-- 관통 원리 -->
+  <div class="card" style="margin-bottom:16px">
+    <span class="badge" style="--c:var(--purple);--cbg:var(--purplebg)">관통 원리 — 인과 사슬</span>
+    <div class="bars">
+      <div class="bar-row"><span class="bl">①</span><div class="track"><div class="fill" style="width:20%;--c:var(--green)"></div></div><span class="bv" style="text-align:left;width:auto">통일·구체 워딩</span></div>
+      <div class="bar-row"><span class="bl">②</span><div class="track"><div class="fill" style="width:40%;--c:var(--blue)"></div></div><span class="bv" style="text-align:left;width:auto">알고리즘 매칭</span></div>
+      <div class="bar-row"><span class="bl">③</span><div class="track"><div class="fill" style="width:60%;--c:var(--amber)"></div></div><span class="bv" style="text-align:left;width:auto">맞는 타겟에 도달</span></div>
+      <div class="bar-row"><span class="bl">④</span><div class="track"><div class="fill" style="width:80%;--c:var(--purple)"></div></div><span class="bv" style="text-align:left;width:auto">반응(낮은 Skip·저장)</span></div>
+      <div class="bar-row"><span class="bl">⑤</span><div class="track"><div class="fill" style="width:100%;--c:var(--pink)"></div></div><span class="bv" style="text-align:left;width:auto">확장 → 팔로워 증가</span></div>
+    </div>
+    <p class="note">모든 지표는 이 사슬의 <b>어느 칸이 막혔는지</b>를 가리키는 신호로 읽는다. 콘텐츠 품질이 합격인데 도달이 적으면 → ②③(매칭·분배) 문제이지 콘텐츠 문제가 아님.</p>
+  </div>
+
+  <!-- 09-A 매칭 / 09-B 아웃바운드 -->
+  <div class="grid g2" style="margin-bottom:16px">
+    <div class="card">
+      <span class="badge" style="--c:var(--blue);--cbg:var(--bluebg)">A · 매칭 신호 읽기 (추천 계정)</span>
+      <p class="tag" style="margin:0 0 12px">IG는 추천 계정으로 "너를 이 클러스터로 본다"는 신호를 계속 준다.</p>
+      <div class="statline"><span>떠 있는 계정</span><span class="v">yopick_mag · Yozm.mag · cre.beau · Chu.from</span></div>
+      <div class="statline"><span>그 결</span><span class="v" style="color:var(--green)">K콘텐츠·매거진·뷰티</span></div>
+      <p class="note"><b>"뜨고 안 뜨고"가 아니라 "누가 뜨는가의 니치 일치도"가 신호.</b> 추천이 우리 타겟 니치로 <b>수렴 = 매칭 작동</b>, 무관한 계정만 섞이면 미스. → 추천 스크린샷을 시계열로 모아 일치율을 추적해야 측정 가능.</p>
+    </div>
+    <div class="card">
+      <span class="badge" style="--c:var(--green);--cbg:var(--greenbg)">B · 아웃바운드 인게이지 룰</span>
+      <p class="tag" style="margin:0 0 12px">나가서 <b>우리가</b> 좋아요·댓글을 주고 온다 (suju 케이스로 입증된 시드).</p>
+      <div class="ins" style="--c:var(--pink);--cbg:var(--pinkbg)"><div class="ic">✗</div><div class="tx"><b>무작위 금지</b><span>A에서 뜬 <b>같은 니치</b> 계정에만. IG가 그 연결을 학습.</span></div></div>
+      <div class="ins" style="--c:var(--amber);--cbg:var(--amberbg)"><div class="ic">~</div><div class="tx"><b>시드 한정</b><span>효과는 초기 마중물. 폭발은 알고리즘 — 양이 아니라 타겟·빈도가 핵심.</span></div></div>
+    </div>
+  </div>
+
+  <!-- 09-C 속도 / 꺾임 KPI -->
+  <div class="card" style="margin-bottom:16px;border-color:var(--pink)">
+    <span class="badge" style="--c:var(--pink);--cbg:var(--pinkbg)">C · 속도(velocity) & 꺾임 — 조회수로 판단하면 오판</span>
+    <div class="grid g2" style="margin:4px 0 8px">
+      <div class="card tint">
+        <div class="rb-h" style="color:var(--ink);font-size:14px;margin-bottom:8px">콘텐츠 합격 룰</div>
+        <p class="note" style="color:var(--mut)"><b style="color:var(--green)">Skip &lt; 50%(목표 30%) &amp; 평균시청 ≥ 영상길이</b> 면 콘텐츠는 합격. 그 다음 도달은 분배 문제로 분리 진단.</p>
+        <div class="statline" style="margin-top:8px"><span class="bl" style="color:var(--mut)">사례 · suju '잘 지냈어요'</span><span class="v" style="color:var(--green)">건강</span></div>
+        <p class="note" style="color:var(--mut)">235뷰지만 11초 영상에 평균시청 13초·Skip 41.7%·팔로워 58.7%. <b style="color:var(--ink)">콘텐츠 실패 아님 — 노출만 부족.</b></p>
+      </div>
+      <div class="card tint">
+        <div class="rb-h" style="color:var(--ink);font-size:14px;margin-bottom:8px">속도·추세로 보기</div>
+        <p class="note" style="color:var(--mut)"><b style="color:var(--ink)">속도</b> = 업로드 후 N시간 내 도달 증가율. <b style="color:var(--ink)">꺾임</b> = 도달 기울기가 0으로 수렴. "느리지만 우상향(건강)" vs "멈춤(꺾임)"을 구분.</p>
+        <div class="statline" style="margin-top:8px"><span class="bl" style="color:var(--mut)">부스터</span><span class="v" style="color:var(--green)">48h 댓글 답장</span></div>
+        <p class="note" style="color:var(--mut)">IG 직접 신호(§07-⑤) — 첫 2일 댓글 응답이 초기 속도를 올려 도달 확장 트리거.</p>
+      </div>
+    </div>
+    <div class="reach-tbl">
+      <div class="rt-row rt-head"><span>보던 것 (X)</span><span class="rt-reach"></span><span class="rt-flag">→</span><span class="rt-tab">바꿀 것 (O)</span></div>
+      <div class="rt-row"><span class="rt-name no">절대 조회수</span><span class="rt-reach"></span><span class="rt-flag">→</span><span class="rt-tab">도달 기울기(속도)+꺾임 감지</span></div>
+      <div class="rt-row"><span class="rt-name no">좋아요 수</span><span class="rt-reach"></span><span class="rt-flag">→</span><span class="rt-tab">Skip율 · 평균시청÷영상길이</span></div>
+      <div class="rt-row"><span class="rt-name no">팔로워 총량</span><span class="rt-reach"></span><span class="rt-flag">→</span><span class="rt-tab">맞는 타겟에의 도달 질(반응률)</span></div>
+      <div class="rt-row"><span class="rt-name no">추천 뜸/안 뜸</span><span class="rt-reach"></span><span class="rt-flag">→</span><span class="rt-tab">추천 계정 니치 일치율 수렴</span></div>
+    </div>
+  </div>
+
+  <!-- 09-D 세팅·골든타임·언어 -->
+  <div class="grid g3" style="margin-bottom:16px">
+    <div class="card">
+      <span class="badge" style="--c:var(--green);--cbg:var(--greenbg)">D1 · 세팅 8조건</span>
+      <p class="note" style="color:var(--mut)">"Set up professional account 8개" = IG의 <b style="color:var(--ink)">운영 준비도 체크리스트</b>(추정). 완주 = 추천·인사이트 자격. ※대시보드가 "안 나오다 나오는 타이밍"이 그 자격 신호인지 <b style="color:var(--pink)">타임스탬프 대조로 검증 예정</b>.</p>
+    </div>
+    <div class="card">
+      <span class="badge" style="--c:var(--amber);--cbg:var(--amberbg)">D2 · 골든타임·주기</span>
+      <p class="note" style="color:var(--mut)">업로드 후 도달이 가장 가파르게 오른 시간대 = 팔로워 활동 피크(예 suju 안녕: 4h 1.2K→15h 2.0K). <b style="color:var(--ink)">일정 주기(데일리 시리즈)</b> 자체가 알고리즘 학습 신호.</p>
+    </div>
+    <div class="card">
+      <span class="badge" style="--c:var(--blue);--cbg:var(--bluebg)">D3 · 언어 설정</span>
+      <p class="note" style="color:var(--mut)">Preferred Languages = <b style="color:var(--ink)">EN(Primary)·ID·KO·ES</b>. IG가 이 언어로 릴스를 번역·추천 → 영어 Primary가 인도·이란·인니 도달과 연결. 글로벌 노림이면 영어 자막·로마자 병기 강화.</p>
+    </div>
+  </div>
+
+  <!-- 검증 대기 -->
+  <div class="card" style="margin-bottom:16px;border-color:var(--pink)">
+    <span class="badge" style="--c:var(--pink);--cbg:var(--pinkbg)">검증 대기 — 추측 → 실측 전환 필요</span>
+    <div class="ins" style="--c:var(--pink);--cbg:var(--pinkbg)"><div class="ic">1</div><div class="tx"><b>프로 계정 8조건 원문 + 대시보드 출현 타임스탬프</b><span>세팅 캡처 확보 시 D1 가설을 실측으로 전환.</span></div></div>
+    <div class="ins" style="--c:var(--pink);--cbg:var(--pinkbg)"><div class="ic">2</div><div class="tx"><b>추천 계정 시계열</b><span>니치 일치율 수렴 여부 — 스크린샷 시계열 확보 필요(A).</span></div></div>
+    <div class="ins" style="--c:var(--amber);--cbg:var(--amberbg)"><div class="ic">3</div><div class="tx"><b>댓글-답장 도달 부스터 캡처</b><span>IG 안내 문구 캡처 확보됨(§07-⑤) — 원본 이미지 받으면 증거로 임베드.</span></div></div>
   </div>
 </section>
 
